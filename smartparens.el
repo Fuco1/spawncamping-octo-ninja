@@ -62,4 +62,6 @@ added to every `sp-pair' form in forms."
 (spp-with-setting)
 
 (provide 'smartparens)
+
+(provide 'smartparens2)
 ;;; smartparens.el ends here
