@@ -31,6 +31,8 @@
 
 (require 'dash)
 
+
+;; Pair settings
 (defconst spp-pair-settings '(
                               mode
                               open
@@ -61,7 +63,80 @@ added to every `sp-pair' form in forms."
 
 (spp-with-setting)
 
-(provide 'smartparens)
+(defvar spp-pairs nil
+  "Alist of pair definitions.
+
+Maps a configuration name to list of pair definitions.
+
+The symbol t represents global settings that should be active in
+every buffer.
+
+Configuration name can be a symbol representing a major mode (as
+set in the variable `major-mode'), in which case this is
+automatically merged into the global configuration when
+smartparens is activated in a buffer with given major mode
+active.")
+
+(defun spp-pair (&rest keys)
+  "Add a pair definition.
+
+\(fn &key MODE OPEN CLOSE INSERT-TRIGGER WRAP-TRIGGER INSERT-KEY WRAP-KEY ACTIONS HOOKS)"
+  (let ((data (-pl-to-alist (-pl-delete keys :mode)))
+        (mode (or (-pl-get :mode) t)))
+    ;; insert into `spp-pairs' here.
+    ))
+
+;; example call
+;; (spp-pair :open "("
+;;           :close ")"
+;;           :insert-trigger "("
+;;           :wrap-trigger "("
+;;           :insert-key "("
+;;           :wrap-key ")"
+;;           :actions '((:insert
+;;                       (:when pred)
+;;                       (:unless pred)
+;;                       (:delayed pred command event))
+;;                      (:wrap
+;;                       (:when pred)
+;;                       (:unless pred))
+;;                      (:autoskip)
+;;                      (:navigate)
+;;                      (:highlight))
+;;           :hooks '((:before-insert function)
+;;                    (:after-insert function)
+;;                    (:before-wrap function)
+;;                    (:after-wrap function)))
+
+;; data structure
+;; ((:open . "(")
+;;  (:close . ")")
+;;  (:insert-trigger . "(")
+;;  (:wrap-trigger . "(")
+;;  (:insert-key . "(")
+;;  (:wrap-key . ")")
+;;  (:actions
+;;   (:insert
+;;    (:when pred)
+;;    (:unless pred)
+;;    (:delayed pred command event))
+;;   (:wrap
+;;    (:when pred)
+;;    (:unless pred))
+;;   (:autoskip)
+;;   (:navigate)
+;;   (:highlight))
+;;  (:hooks
+;;   (:before-insert function)
+;;   (:after-insert function)
+;;   (:before-wrap function)
+;;   (:after-wrap function)))
+
+;; We want to also support pairs like {} and {--}.  In this case, only
+;; the extra portions should be inserted.
+(defun spp-insert-pair (&optional pair)
+
+  )
 
 (provide 'smartparens2)
 ;;; smartparens.el ends here
